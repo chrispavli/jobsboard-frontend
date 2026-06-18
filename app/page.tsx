@@ -1,15 +1,33 @@
 import JobList from './components/JobList';
 
+interface JobType {
+  id: string;
+  attributes: { name: string };
+}
+
+interface JobNode {
+  id: string;
+  attributes: {
+    title: string;
+    field_company: string;
+    field_location: string;
+    field_salary: string;
+  };
+  relationships: {
+    field_job_type?: { data?: { id: string } };
+  };
+}
+
 async function getJobs() {
-  const res = await fetch('http://jobsboard.ddev.site/jsonapi/node/job_listing?include=field_job_type');
+  const res = await fetch(`${process.env.DRUPAL_API_URL}/jsonapi/node/job_listing?include=field_job_type`);
   const data = await res.json();
-  return { jobs: data.data, included: data.included };
+  return { jobs: data.data as JobNode[], included: data.included as JobType[] };
 }
 
 export default async function Home() {
   const { jobs, included } = await getJobs();
 
-  function getJobType(job) {
+  function getJobType(job: JobNode): string | null {
     const termId = job.relationships.field_job_type?.data?.id;
     if (!termId) return null;
     const term = included.find((item) => item.id === termId);

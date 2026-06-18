@@ -11,7 +11,7 @@ export const metadata = {
   description: "Find your next role",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${geist.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-gray-50">
@@ -21,9 +21,7 @@ export default function RootLayout({ children }) {
             <span className="text-sm text-slate-400">Powered by Drupal</span>
           </div>
         </header>
-        <main className="flex-1">
-          {children}
-        </main>
+        <main className="flex-1">{children}</main>
       </body>
     </html>
   );

@@ -3,11 +3,20 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-export default function JobList({ jobs }) {
+interface Job {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  salary: string;
+  jobType: string | null;
+}
+
+export default function JobList({ jobs }: { jobs: Job[] }) {
   const [filter, setFilter] = useState('All');
   const [search, setSearch] = useState('');
 
-  const jobTypes = ['All', ...new Set(jobs.map((job) => job.jobType).filter(Boolean))];
+  const jobTypes = ['All', ...new Set(jobs.map((job) => job.jobType).filter(Boolean))] as string[];
 
   const filtered = jobs.filter((job) => {
     const matchesType = filter === 'All' || job.jobType === filter;

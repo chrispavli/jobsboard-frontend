@@ -1,12 +1,30 @@
 import Link from 'next/link';
 
-async function getJob(id) {
-  const res = await fetch(`http://jobsboard.ddev.site/jsonapi/node/job_listing/${id}?include=field_job_type`);
-  const data = await res.json();
-  return { job: data.data, included: data.included };
+interface JobType {
+  id: string;
+  attributes: { name: string };
 }
 
-export default async function JobPage({ params }) {
+interface JobNode {
+  attributes: {
+    title: string;
+    field_company: string;
+    field_location: string;
+    field_salary: string;
+    field_body: string | null;
+  };
+  relationships: {
+    field_job_type?: { data?: { id: string } };
+  };
+}
+
+async function getJob(id: string) {
+  const res = await fetch(`${process.env.DRUPAL_API_URL}/jsonapi/node/job_listing/${id}?include=field_job_type`);
+  const data = await res.json();
+  return { job: data.data as JobNode, included: data.included as JobType[] };
+}
+
+export default async function JobPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const { job, included } = await getJob(id);
 
@@ -29,15 +47,9 @@ export default async function JobPage({ params }) {
         </div>
 
         <div className="mt-1 flex flex-col text-gray-600">
-          <span className="flex items-center">
-            {job.attributes.field_company}
-          </span>
-          <span className="flex items-center">
-            {job.attributes.field_location}
-          </span>
-          <span className="flex items-center">
-            {job.attributes.field_salary}
-          </span>
+          <span>{job.attributes.field_company}</span>
+          <span>{job.attributes.field_location}</span>
+          <span>{job.attributes.field_salary}</span>
         </div>
 
         {job.attributes.field_body && (
