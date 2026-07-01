@@ -12,7 +12,7 @@ interface Job {
   body: string | null;
 }
 
-export default function JobList({ jobs }: { jobs: Job[] }) {
+export default function JobList({ jobs, jobCount }: { jobs: Job[]; jobCount: number }) {
   const [filter, setFilter] = useState('All');
   const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(jobs[0]?.id ?? null);
@@ -31,6 +31,11 @@ export default function JobList({ jobs }: { jobs: Job[] }) {
   const selected = jobs.find((j) => j.id === selectedId) ?? null;
 
   return (
+    <div>
+      <div className="mb-5">
+        <h1 className="text-2xl font-bold text-gray-900">Latest Positions</h1>
+        <p className="text-gray-500">{jobCount} positions available</p>
+      </div>
     <div className="flex gap-6 items-start">
       {/* Left: list */}
       <div className="w-full md:w-2/5 shrink-0">
@@ -132,6 +137,7 @@ export default function JobList({ jobs }: { jobs: Job[] }) {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }

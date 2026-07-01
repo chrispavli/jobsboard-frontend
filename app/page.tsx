@@ -46,12 +46,8 @@ export default async function Home() {
   }));
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-4">
-      <div className="mb-5">
-        <h1 className="text-2xl font-bold text-gray-900">Latest Positions</h1>
-        <p className="text-gray-500">{jobs.length} positions available</p>
-      </div>
-      <JobList jobs={normalised} />
+    <div className="max-w-6xl mx-auto px-6 py-6">
+      <JobList jobs={normalised} jobCount={jobs.length} />
     </div>
   );
 }

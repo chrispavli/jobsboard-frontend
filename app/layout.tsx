@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${geist.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-gray-50">
         <header className="bg-slate-800">
-          <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
             <a href="/" className="text-lg font-bold text-white">Jobs Board</a>
             <span className="text-sm text-slate-400">Powered by Drupal</span>
           </div>
