@@ -12,6 +12,7 @@ interface JobNode {
     field_company: string;
     field_location: string;
     field_salary: string;
+    field_body?: string;
   };
   relationships: {
     field_job_type?: { data?: { id: string } };
@@ -41,10 +42,11 @@ export default async function Home() {
     location: job.attributes.field_location,
     salary: job.attributes.field_salary,
     jobType: getJobType(job),
+    body: job.attributes.field_body ?? null,
   }));
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-4">
+    <div className="max-w-6xl mx-auto px-4 py-4">
       <div className="mb-5">
         <h1 className="text-2xl font-bold text-gray-900">Latest Positions</h1>
         <p className="text-gray-500">{jobs.length} positions available</p>
